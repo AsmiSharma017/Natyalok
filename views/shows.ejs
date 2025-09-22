@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Shows</title>
+</head>
+<body>
+  <h2>Available Shows</h2>
+  <ul>
+    <% shows.forEach(show => { %>
+      <li>
+        <%= show.name %> at <%= show.theatre %> — ₹<%= show.price %>
+        <form action="/book/<%= show.id %>" method="POST">
+          <button type="submit">Book</button>
+        </form>
+      </li>
+    <% }) %>
+  </ul>
+</body>
+</html>
