@@ -1,2 +1,0 @@
-# Natyalok
-Backend Engineering project
