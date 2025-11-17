@@ -275,5 +275,20 @@ bcrypt = secure password hashing
 
 # SERVER.JS
 
+main things in server.js->Starts an HTTPS Express server, connects MongoDB, sets EJS views, adds routes, enables WebSockets for seats, integrates Redis, handles cookies & middlewares, and runs a global error handler
+
+
+# CONFIG/DB.JS
+
+This file:
+
+Loads environment variables from .env
+
+Fetches  MongoDB connection URL
+
+Connects Express server → MongoDB using Mongoose
+
+If connection fails → crashes the server safely
+
 
 
