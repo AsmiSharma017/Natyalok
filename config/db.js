@@ -1,13 +1,20 @@
+// all notes are handwritten
+
+// Connecting to MongoDB using Mongoose
 import mongoose from "mongoose";
+
+// Load environment variables
 import dotenv from "dotenv";
+
+
 dotenv.config();
 
+// Function to connect to MongoDB
 const connectDB = async () => {
   try {
     const uri = process.env.MONGO_URI;
     if (!uri) throw new Error("MONGO_URI not set in .env");
     await mongoose.connect(uri, {
-      // options are default in mongoose v6+
     });
     console.log("MongoDB connected");
   } catch (err) {
