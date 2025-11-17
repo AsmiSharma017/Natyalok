@@ -173,3 +173,107 @@ GitHub is a website where you can store your Git projects online, share them, an
 Store data in tables, rows, columns (SQL databases). -> not used in our project
 
 
+# 10. NoSQL Databases (MongoDB, Redis, InfluxDB, Neo4j)
+
+NoSQL Databases
+Databases that do not use traditional tables.
+They store data in flexible ways depending on the use case.
+
+MongoDB
+Stores data as documents (like JSON files).
+Good for flexible and changing data.
+
+Redis
+Stores data in memory as key–value pairs.
+Super fast for caching.
+
+InfluxDB
+Stores time-series data (data with timestamps).
+Used for metrics, sensors, logs.
+
+Neo4j
+A graph database that stores data as nodes and relationships.
+Used for social networks, recommendations, etc.
+
+
+# 11. Database Scaling
+
+Indexes
+A shortcut that makes searching data faster in a database.
+
+Sharding
+Splitting big data across multiple servers so each server handles a smaller piece.
+
+Replication
+Copying the same data to multiple servers so the system stays available even if one server fails.
+
+One-line summary
+Indexes = fast search
+Sharding = split data
+Replication = duplicate data for safety
+
+
+
+# 12. Caching
+
+Client-side Storage
+
+(Stored in the browser)
+
+localStorage → Saves data permanently (until deleted).
+
+sessionStorage → Saves data only for the current tab/session.
+
+IndexedDB → A bigger, more powerful database inside the browser.
+
+Server-side Storage
+
+(Stored on the backend/server)
+
+Redis → Super-fast in-memory storage used for caching, sessions, and quick lookups.
+
+One-line summary
+
+Client-side = stored in the browser.
+Server-side = stored on the server like Redis.
+
+
+# 13. Web Security
+
+MD5
+Full form: Message Digest 5
+A hashing algorithm but weak now.
+
+SHA-256
+Full form: Secure Hash Algorithm 256-bit
+A strong hashing algorithm.
+
+HTTPS
+Full form: HyperText Transfer Protocol Secure
+A secure connection between browser and website.
+
+TLS
+Full form: Transport Layer Security
+Provides encryption for HTTPS.
+
+bcrypt
+Full form: No official expansion ("bcrypt" = Blowfish + crypt)*
+A very secure password hashing method.
+
+One-line summary
+MD5 = weak hash
+SHA256 = strong hash
+HTTPS = secure connection
+TLS = encryption
+bcrypt = secure password hashing
+
+
+
+
+## EXPLANATION OF CODES
+
+
+# SERVER.JS
+
+
+
