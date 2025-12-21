@@ -1,26 +1,3 @@
-// import mongoose from "mongoose";
-
-// const seatSchema = new mongoose.Schema({
-//   label: String,
-//   status: { type: String, enum: ["available", "locked", "booked"], default: "available" }
-// });
-
-// const movieSchema = new mongoose.Schema({
-//   title: { type: String, required: true },
-//   description: String,
-//   duration: String,       // e.g., "2h 15m"
-//   genre: String,
-//   releaseDate: Date,
-//   imdbID: { type: String, unique: true, sparse: true }, // For external API movies
-//   posterUrl: String,      // Always store poster here
-
-//   seats: [[seatSchema]],  // 2D array for rows
-// }, { timestamps: true });
-
-// export default mongoose.model("Movie", movieSchema);
-
-
-
 import mongoose from "mongoose";
 
 // 🎫 Each seat within a row

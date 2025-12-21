@@ -292,3 +292,21 @@ If connection fails → crashes the server safely
 
 
 
+
+# 19 December 2025 - I am adding testing  and admin panel today
+
+controllers/
+└── adminController.js
+
+middleware/
+└── roleMiddleware.js
+
+routes/
+└── adminRoutes.js
+
+views/
+└── admin/
+    ├── dashboard.ejs
+    ├── users.ejs
+    ├── movies.ejs
+    └── bookings.ejs

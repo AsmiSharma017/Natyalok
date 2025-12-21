@@ -1,0 +1,102 @@
+<!-- Admin Movies -->
+<%- include("../partials/header") %>
+
+<style>
+/* Movies Page Specific */
+.movie-form {
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+.form-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form-input {
+  flex: 1;
+  min-width: 200px;
+  padding: 1rem 1.5rem;
+  border: 2px solid #e1e8ed;
+  border-radius: 15px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #4facfe;
+  box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.2);
+}
+
+.add-movie-btn {
+  padding: 1rem 2.5rem;
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  color: white;
+  border: none;
+  border-radius: 15px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.add-movie-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(17, 153, 142, 0.4);
+}
+
+.movie-table td:nth-child(1), .movie-table td:nth-child(2) {
+  max-width: 200px;
+}
+</style>
+
+<div class="admin-container">
+  <h1 class="admin-title">Admin – Movies</h1>
+
+  <div class="movie-form">
+    <h3 style="color: #333; margin-bottom: 1.5rem;">➕ Add Movie</h3>
+    <form action="/admin/movies/create" method="POST">
+      <div class="form-group">
+        <input name="title" class="form-input" placeholder="Movie Title" required />
+        <input name="genre" class="form-input" placeholder="Genre" required />
+        <input name="duration" class="form-input" placeholder="Duration (min)" type="number" required />
+        <button type="submit" class="add-movie-btn">Add Movie</button>
+      </div>
+    </form>
+  </div>
+
+  <table class="bookings-table">
+    <tr>
+      <th>Title</th>
+      <th>Genre</th>
+      <th>Duration</th>
+      <th>Actions</th>
+    </tr>
+    <% movies.forEach(movie => { %>
+      <tr>
+        <td><input name="title" value="<%= movie.title %>" class="form-input" style="width:100%;" /></td>
+        <td><%= movie.genre %></td>
+        <td><%= movie.duration %> min</td>
+        <td>
+          <form action="/admin/movies/<%= movie._id %>/update" method="POST" style="display: inline;">
+            <button type="submit" class="update-btn" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Update</button>
+          </form>
+          <form action="/admin/movies/<%= movie._id %>/delete" method="POST" style="display:inline;">
+            <button type="submit" class="delete-btn" onclick="return confirm('Delete movie?')" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Delete</button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </table>
+
+  <a href="/admin/dashboard" class="back-link">⬅ Back to Dashboard</a>
+</div>
+
+<%- include("../partials/footer") %>

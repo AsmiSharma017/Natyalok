@@ -1,0 +1,63 @@
+<!-- Admin Users -->
+<%- include("../partials/header") %>
+
+<style>
+/* Users Page Specific */
+.user-table td input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.role-select {
+  width: 100%;
+  padding: 0.8rem;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  background: white;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.role-select:focus {
+  outline: none;
+  border-color: #4facfe;
+  box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.2);
+}
+</style>
+
+<div class="admin-container">
+  <h1 class="admin-title">Admin – Users</h1>
+
+  <table class="bookings-table">
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Role</th>
+      <th>Actions</th>
+    </tr>
+    <% users.forEach(userItem => { %>
+      <tr>
+        <td><input name="name" value="<%= userItem.name %>" class="form-input" /></td>
+        <td><%= userItem.email %></td>
+        <td>
+          <select name="role" class="role-select">
+            <option value="user" <%= userItem.role === "user" ? "selected" : "" %>>User</option>
+            <option value="admin" <%= userItem.role === "admin" ? "selected" : "" %>>Admin</option>
+          </select>
+        </td>
+        <td>
+          <form action="/admin/users/<%= userItem._id %>/update" method="POST" style="display: inline;">
+            <button type="submit" class="update-btn" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Update</button>
+          </form>
+          <form action="/admin/users/<%= userItem._id %>/delete" method="POST" style="display:inline;">
+            <button type="submit" class="delete-btn" onclick="return confirm('Delete user?')" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Delete</button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </table>
+
+  <a href="/admin/dashboard" class="back-link">⬅ Back to Dashboard</a>
+</div>
+
+<%- include("../partials/footer") %>
