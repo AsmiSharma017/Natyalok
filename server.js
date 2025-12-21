@@ -110,7 +110,10 @@
 
 
 
-// server.js - RENDER READY (Copy-Paste EXACTLY)
+
+
+
+// server.js - RENDER READY WITH SEAT SOCKET FIX
 import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
@@ -125,6 +128,7 @@ import bookingRoutes from "./routes/bookingRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import { errorHandler } from "./middleware/errorMiddleware.js";
+import { initSeatSocket } from "./sockets/seatSocket.js"; // ADD SOCKET IMPORT
 
 dotenv.config();
 
@@ -174,10 +178,14 @@ app.get("/about", (req, res) => {
 // Error handler
 app.use(errorHandler);
 
+// ✅ ADD SOCKET INITIALIZATION HERE (before listen)
+const server = app.listen; // Fake server for socket
+const io = initSeatSocket({ app }); // Pass app to socket
+
 // ❌ REMOVE HTTPS - RENDER NEEDS HTTP
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Natyalok LIVE on http://localhost:${PORT}`);
   console.log(`🌐 https://natyalok.onrender.com`);
+  console.log(`✅ Seats HTTP polling ready!`);
 });
-
