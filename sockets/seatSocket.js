@@ -60,42 +60,32 @@
 
 
 
-// sockets/seatSocket.js - HTTP POLLING FOR RENDER FREE
-import { Server } from "socket.io"; // Keep for compatibility
 
-// In-memory seat storage (per movie)
-const seatLocks = new Map(); // movieId -> { seatLabel: userId }
+// sockets/seatSocket.js - RENDER HTTP POLLING
+const seatLocks = new Map(); // movieId -> { seat: userId }
 
 export const initSeatSocket = (server) => {
-  // Fake socket.io for Render compatibility
-  const io = {
-    emit: (event, data) => console.log('FAKE SOCKET:', event, data)
-  };
+  // Fake io for Render
+  const io = { emit: () => {} };
 
-  // HTTP Polling endpoints for seat management
-  server.app.use('/api/seats/:movieId', (req, res) => {
+  // HTTP seat endpoints
+  server.app.use('/api/seats/:movieId', express.json(), (req, res) => {
     const movieId = req.params.movieId;
     
+    if (!seatLocks.has(movieId)) seatLocks.set(movieId, {});
+    const movieSeats = seatLocks.get(movieId);
+
     if (req.method === 'GET') {
-      // Get available seats
-      res.json({
-        seats: Object.keys(seatLocks.get(movieId) || {}),
-        locks: Array.from((seatLocks.get(movieId) || {}).entries())
-      });
+      res.json({ locks: Object.entries(movieSeats) });
     } else if (req.method === 'POST') {
-      const { action, seats, userId } = req.body; // action: 'lock', 'unlock', 'book'
-      
-      if (!seatLocks.has(movieId)) seatLocks.set(movieId, {});
-      const movieSeats = seatLocks.get(movieId);
-      
+      const { action, seats, userId } = req.body;
       seats.forEach(seat => {
         if (action === 'lock' || action === 'book') {
           movieSeats[seat] = userId;
-        } else if (action === 'unlock') {
+        } else {
           delete movieSeats[seat];
         }
       });
-      
       seatLocks.set(movieId, movieSeats);
       res.json({ success: true });
     }
