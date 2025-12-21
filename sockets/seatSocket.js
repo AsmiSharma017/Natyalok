@@ -60,15 +60,13 @@
 
 
 
+// sockets/seatSocket.js - RENDER HTTP POLLING (FIXED)
+import express from 'express'; // ✅ ADD THIS IMPORT
 
-// sockets/seatSocket.js - RENDER HTTP POLLING
 const seatLocks = new Map(); // movieId -> { seat: userId }
 
 export const initSeatSocket = (server) => {
-  // Fake io for Render
-  const io = { emit: () => {} };
-
-  // HTTP seat endpoints
+  // HTTP seat endpoints - RENDER READY
   server.app.use('/api/seats/:movieId', express.json(), (req, res) => {
     const movieId = req.params.movieId;
     
@@ -88,8 +86,12 @@ export const initSeatSocket = (server) => {
       });
       seatLocks.set(movieId, movieSeats);
       res.json({ success: true });
+    } else {
+      res.status(405).json({ error: 'Method not allowed' });
     }
   });
 
+  // Fake io for Render (no WebSocket needed)
+  const io = { emit: () => {} };
   return io;
 };
