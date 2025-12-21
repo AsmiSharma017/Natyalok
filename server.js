@@ -109,48 +109,35 @@
 // server.js - FIXED for Render + HTTPS
 
 
-
-// server.js - ULTRA SIMPLE HTTP for Render
+// server.js - SAFE RENDER FIX
 import dotenv from "dotenv";
-import express from "express";  // Direct Express import
+import express from "express";
 import mongoose from "mongoose";
 
-// Load env
 dotenv.config();
 
 const app = express();
 
-// Middleware (move from app.js temporarily)
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
 app.set('views', './views');
 
-// MongoDB
-mongoose.connect(process.env.MONGODB_URI || process.env.MONGODB_URL)
+mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB error:', err));
 
-// TEMP HOME ROUTE (add your real routes later)
 app.get('/', (req, res) => {
-  res.send(`
-    <h1>🎬 Natyalok Movie Booking - LIVE! 🎉</h1>
-    <p>Your beautiful admin dashboard is ready!</p>
-    <a href="/admin/dashboard">Go to Admin Dashboard</a>
-  `);
+  res.send('<h1>🎬 Natyalok LIVE!</h1><a href="/admin/dashboard">Admin</a>');
 });
 
-// Admin test route
 app.get('/admin/dashboard', (req, res) => {
-  res.send('<h1>Admin Dashboard Works! ✨</h1>');
+  res.send('<h1>Admin Works!</h1>');
 });
 
-// CRITICAL: Render HTTP server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀 Natyalok LIVE on port ${PORT}`);
+  console.log(`Server on ${PORT}`);
 });
 
-
-export default server;
