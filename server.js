@@ -106,19 +106,32 @@
 // server.listen(PORT, () => {
 //   console.log(`🔒 HTTPS server running at https://localhost:${PORT}`);
 // });
-
-
-// server.js
+// server.js - FIXED for Render + HTTPS
 import dotenv from "dotenv";
 import { createHttpsServer } from "./app.js";
+import https from 'https';
+import fs from 'fs';
+import path from 'path';
 
 dotenv.config();
 
 const PORT = process.env.PORT || 3000;
+
+// Render needs HTTP on 0.0.0.0 (not HTTPS localhost)
 const server = createHttpsServer();
 
-server.listen(PORT, () => {
-  console.log(`🔒 HTTPS server running at https://localhost:${PORT}`);
-});
+// FIX: Bind to 0.0.0.0 for Render + use HTTP in production
+if (process.env.NODE_ENV === 'production') {
+  // Render: HTTP only, no HTTPS certificates needed
+  server.listen(PORT, '0.0.0.0', () => {
+    console.log(`🚀 Production server running on port ${PORT}`);
+    console.log(`🌐 Live at: https://natyalok.onrender.com`);
+  });
+} else {
+  // Local dev: HTTPS localhost
+  server.listen(PORT, 'localhost', () => {
+    console.log(`🔒 HTTPS dev server running at https://localhost:${PORT}`);
+  });
+}
 
 export default server;
