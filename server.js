@@ -128,7 +128,7 @@ import bookingRoutes from "./routes/bookingRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import { errorHandler } from "./middleware/errorMiddleware.js";
-import { initSeatSocket } from "./sockets/seatSocket.js"; // ADD SOCKET IMPORT
+import { initSeatSocket } from "./sockets/seatSocket.js"; // ✅ SOCKET IMPORT
 
 dotenv.config();
 
@@ -162,6 +162,10 @@ app.use("/api/bookings", bookingRoutes);
 app.use("/", userRoutes);
 app.use("/admin", adminRoutes);
 
+// ✅ SEAT SOCKETS - BEFORE listen()
+const serverObj = { app }; // Pass app object
+initSeatSocket(serverObj); // Initialize seats
+
 // Homepage
 app.get("/", async (req, res, next) => {
   try {
@@ -178,10 +182,6 @@ app.get("/about", (req, res) => {
 // Error handler
 app.use(errorHandler);
 
-// ✅ ADD SOCKET INITIALIZATION HERE (before listen)
-const server = app.listen; // Fake server for socket
-const io = initSeatSocket({ app }); // Pass app to socket
-
 // ❌ REMOVE HTTPS - RENDER NEEDS HTTP
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, '0.0.0.0', () => {
@@ -189,3 +189,4 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log(`🌐 https://natyalok.onrender.com`);
   console.log(`✅ Seats HTTP polling ready!`);
 });
+
