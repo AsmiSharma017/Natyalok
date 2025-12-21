@@ -107,31 +107,50 @@
 //   console.log(`🔒 HTTPS server running at https://localhost:${PORT}`);
 // });
 // server.js - FIXED for Render + HTTPS
-import dotenv from "dotenv";
-import { createHttpsServer } from "./app.js";
-import https from 'https';
-import fs from 'fs';
-import path from 'path';
 
+
+
+// server.js - ULTRA SIMPLE HTTP for Render
+import dotenv from "dotenv";
+import express from "express";  // Direct Express import
+import mongoose from "mongoose";
+
+// Load env
 dotenv.config();
 
+const app = express();
+
+// Middleware (move from app.js temporarily)
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.static('public'));
+app.set('view engine', 'ejs');
+app.set('views', './views');
+
+// MongoDB
+mongoose.connect(process.env.MONGODB_URI || process.env.MONGODB_URL)
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.error('MongoDB error:', err));
+
+// TEMP HOME ROUTE (add your real routes later)
+app.get('/', (req, res) => {
+  res.send(`
+    <h1>🎬 Natyalok Movie Booking - LIVE! 🎉</h1>
+    <p>Your beautiful admin dashboard is ready!</p>
+    <a href="/admin/dashboard">Go to Admin Dashboard</a>
+  `);
+});
+
+// Admin test route
+app.get('/admin/dashboard', (req, res) => {
+  res.send('<h1>Admin Dashboard Works! ✨</h1>');
+});
+
+// CRITICAL: Render HTTP server
 const PORT = process.env.PORT || 3000;
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Natyalok LIVE on port ${PORT}`);
+});
 
-// Render needs HTTP on 0.0.0.0 (not HTTPS localhost)
-const server = createHttpsServer();
-
-// FIX: Bind to 0.0.0.0 for Render + use HTTP in production
-if (process.env.NODE_ENV === 'production') {
-  // Render: HTTP only, no HTTPS certificates needed
-  server.listen(PORT, '0.0.0.0', () => {
-    console.log(`🚀 Production server running on port ${PORT}`);
-    console.log(`🌐 Live at: https://natyalok.onrender.com`);
-  });
-} else {
-  // Local dev: HTTPS localhost
-  server.listen(PORT, 'localhost', () => {
-    console.log(`🔒 HTTPS dev server running at https://localhost:${PORT}`);
-  });
-}
 
 export default server;
