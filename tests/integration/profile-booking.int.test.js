@@ -13,7 +13,7 @@ describe('Profile & booking integration (via real server)', () => {
   test('Auth flow: register -> profile access', async () => {
     const agent = request.agent(BASE_URL);
     
-    // Register
+    // Rregiusters
     const registerRes = await agent
       .post('/auth/register')
       .send({ 
